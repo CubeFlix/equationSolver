@@ -30,6 +30,14 @@ You can also solve quadratic equations:
 print(solve(x**2 + 7*x + 6, 0)) # [-1, -6]
 ```
 
+And inequalities using the solve_inequality function:
+
+```
+print(solve_inequality(3*x+1, 5, True, False)) # 3*x+1 > 5; (4/3, inf)))
+```
+
+The middle equality sign can be changed using the third and fourth arguments. The third argument controls the direction of the inequality, while the fourth argument controls if the inequality can be equal.
+
 How it works
 ============
 

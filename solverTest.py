@@ -15,3 +15,5 @@ print(solve(a**2 + 3*a + 2, 0)) # [-1. -2]
 print(solve(a**2 - 25)) # [5, -5]
 print(solve(Fraction(3, 1) * (a + 3) + 2)) # -11/3
 print(solve(a**2 + 7*a + 6, 0)) # [-1, -6]
+print(solve_inequality(3*a+1, 5, True, False)) # 3*a+1 > 5; (4/3, inf)
+print(solve_inequality(-3*a, 3, True, True)) # -3*a ≥ 3; (-inf, -1.0]

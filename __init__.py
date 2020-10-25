@@ -502,7 +502,7 @@ def _solve_quad(exp, solvefor):
 	answers = [(-b + cmath.sqrt(b**2 - 4*a*c)) / (2*a), (-b - cmath.sqrt(b**2 - 4*a*c)) / (2*a)]
 	return answers
 
-def _solve_linear(exp, solvefor):
+def _solve_linear(exp, solvefor, retm=False):
 	assert type(exp) == Add
 	assert len(exp.items) == 2
 	for i in exp.items:
@@ -513,7 +513,10 @@ def _solve_linear(exp, solvefor):
 		elif type(i) == Symbol:
 			m = 1
 	answer = -b/m
-	return answer
+	if retm:
+		return answer, m
+	else:
+		return answer
 
 def solve(exp1, exp2=0, solvefor=None):
 	side = exp1 - exp2
@@ -540,10 +543,43 @@ def solve(exp1, exp2=0, solvefor=None):
 			return _solve_quad(side, solvefor)
 	return _solve_linear(side, solvefor)
 
+def solve_inequality(exp1, exp2, direction, equals, solvefor=None):
+	# Direction of True means a > b, if direction is False, then a < b.
+	# Equals argument means if it is <= and >=, or < and >.
+	side = exp1 - exp2
+	if type(side) == Symbol:
+		side = Add([side, 0])
+	elif type(side) == Term:
+		side = Add([side, 0])
+	elif type(side) == Square:
+		side = Add([side, 0])
+	assert type(side) == Add
+	if solvefor == None:
+		for i in side.items:
+			if type(i) == Symbol:
+				solvefor = i
+			elif type(i) == Term:
+				solvefor = Symbol(i.symbol.name)
+			elif type(i) == Square:
+				solvefor = Symbol(i.name)
+	assert solvefor != None
+	answ, b = _solve_linear(side, solvefor, retm=True)
+	if b < 0:
+		direction = not direction
+	if direction:
+		if equals:
+			return '[' + str(answ) + ', inf)'
+		else:
+			return '(' + str(answ) + ', inf)'
+	else:
+		if equals:
+			return '(-inf, ' + str(answ) + ']' 
+		else:
+			return '(-inf, ' + str(answ) + ')'
+
 def simplify(exp):
 	if not type(exp) in (Term, Symbol, Add):
 		raise TypeError("Only simplify expressions")
 	else:
 		return Add([exp, 0])
 	return exp
-
