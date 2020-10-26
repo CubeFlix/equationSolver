@@ -218,7 +218,7 @@ class Square:
 			return Term(other, self)
 	def __rmul__(self, other):
 		if type(other) in (int, float, Fraction):
-			return Term(number, self)
+			return Term(other, self)
 	def __truediv__(self, other):
 		if type(other) in (Fraction, int, float):
 			return Term(Fraction(1, other), self)
