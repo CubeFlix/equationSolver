@@ -191,9 +191,9 @@ class Square:
 			else:
 				raise TypeError("Only use one variable!")
 		elif type(other) == Term:
-			if other.symbol.name == self.name and type(other) == Square:
+			if other.symbol.name == self.name and type(other.symbol) == Square:
 				return Term(1 - other.coefficient, self)
-			elif other.symbol.name == self.name and type(other) == Symbol:
+			elif other.symbol.name == self.name and type(other.symbol) == Symbol:
 				return Add([self, -other])
 			else:
 				raise TypeError("Only use one variable!")
